@@ -79,3 +79,8 @@ html, body {
     z-index: 999;
 }
 
+
+.outline {
+    outline: 2px solid plum;
+}
+
