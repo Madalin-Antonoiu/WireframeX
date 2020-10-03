@@ -89,24 +89,23 @@ html, body {
 .resizable-handle.hide{
     visibility: hidden;
 }
-.resizable-handle:hover{
-    cursor: ne-resize;
-}
 
-.resizable-handle.TL{
-    cursor: nwse-resize;
-}
 
-.resizable-handle.TR{
+.resizable-handle.TR,.BL {
     cursor: nesw-resize;
 }
-.resizable-handle.BL{
+.resizable-handle.BR,.TL{
     cursor: nwse-resize;
 }
-
-.resizable-handle.BR{
-    cursor: nesw-resize;
+.resizable-handle.TM,.BM {
+    cursor: s-resize;
 }
+.resizable-handle.LM,.RM {
+    cursor: w-resize;
+}
+
+
+
 
 
 

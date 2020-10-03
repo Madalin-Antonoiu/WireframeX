@@ -266,18 +266,7 @@ class Handle {
 			ev.target.style.background = "orange";
 			console.log(parseInt(this.element.parentElement.style.width))
 
-			if(ev.target.classList.contains("BM") || ev.target.classList.contains("TM")){
-				this.element.parentElement.style.height = (parseInt(this.element.parentElement.style.height) + 10) + "px"
-			}
 
-			if(ev.target.classList.contains("BL")){
-				this.element.parentElement.style.width = (parseInt(this.element.parentElement.style.width) + 10) + "px"
-				this.element.parentElement.style.height = (parseInt(this.element.parentElement.style.height) + 10) + "px"
-			}
-
-			if(ev.target.classList.contains("RM")){
-				this.element.parentElement.style.width = (parseInt(this.element.parentElement.style.width) + 10) + "px"
-			}
 		},
 		mousedown: (ev) => {
 			// event.target.style.background = "orange";
