@@ -3,6 +3,20 @@ class MovableDiv {
 
 	constructor(width, height, background) {
 		this.element = document.createElement('div');
+		this.element.innerHTML= `
+		<span class="resizable-handle" style="bottom:0; right:0;" ></span>
+		<span class="resizable-handle" style="bottom:0; left:0;"></span>
+		<span class="resizable-handle" style="top:0; right:0;"></span>
+		<span class="resizable-handle" style="top:0; left:0;"></span>
+
+		<span class="resizable-handle" style="top:-2.5px; left:50%;"></span>
+		<span class="resizable-handle" style="bottom:-2.5px;; left:50%;"></span>
+
+		<span class="resizable-handle" style="top:50%; left:-2.5px;;"></span>
+		<span class="resizable-handle" style="top:50%; right:-2.5px;"></span>
+		`
+
+
 		this.element.classList.add("movable-div");
 
 		this.element.style.display = "inline-block";
@@ -61,7 +75,7 @@ class MovableDiv {
 			
 				};
 
-				console.log(this.vars.mousePosition);
+				// console.log(this.vars.mousePosition);
 				this.element.style.left = (this.vars.mousePosition.x + this.vars.offset[0]) + 'px';
 				this.element.style.top  = (this.vars.mousePosition.y + this.vars.offset[1]) + 'px';
 		
@@ -97,7 +111,8 @@ class MovableDiv {
 			}
 			
 			// subhelpers.throttle()
-			subhelpers.throttle()
+			this.helpers.moveElem(ev)
+			// subhelpers.throttle()
 
 		},
 		mousedown : (ev) =>{
