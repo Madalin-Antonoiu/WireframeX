@@ -50,6 +50,22 @@ class MovableDiv {
 			this.element.classList.remove("outline") // sau la toti
 			this.element.removeEventListener("mousemove", this.methods.mousemove); // works now!
 			this.element.style.opacity= 1
+		},
+		moveElem: (ev) =>{
+
+			if (this.vars.isDown == true) {
+				this.vars.mousePosition = {
+		
+					x : ev.clientX,
+					y : ev.clientY
+			
+				};
+
+				console.log(this.vars.mousePosition);
+				this.element.style.left = (this.vars.mousePosition.x + this.vars.offset[0]) + 'px';
+				this.element.style.top  = (this.vars.mousePosition.y + this.vars.offset[1]) + 'px';
+		
+			}
 		}
 	}
 
@@ -68,35 +84,20 @@ class MovableDiv {
 		mousemove : (ev) => {
 			
 			const subhelpers = {
-				moveAt : (pageX, pageY) => {
-					this.element.style.marginLeft = pageX - this.offsetWidth / 2 + 'px';
-					this.element.style.marginTop = pageY - this.offsetHeight / 2 + 'px';
-				},
 				throttle : () => {
 					if (!this.vars.enableCall) return;
 					this.vars.enableCall = false;
-					console.log("Mousemoving!")
-					setTimeout(() => this.vars.enableCall = true, 300);
-				}
-			}
+					// console.log("Mousemoving!")
+					
+					this.helpers.moveElem(ev)
 
+					setTimeout(() => this.vars.enableCall = true, 100);
+				},
+
+			}
+			
 			// subhelpers.throttle()
-			ev.preventDefault();
-
-			if (this.vars.isDown == true) {
-				this.vars.mousePosition = {
-			
-					x : ev.clientX,
-					y : ev.clientY
-			
-				};
-
-				console.log(this.vars.mousePosition);
-				this.element.style.left = (this.vars.mousePosition.x + this.vars.offset[0]) + 'px';
-				this.element.style.top  = (this.vars.mousePosition.y + this.vars.offset[1]) + 'px';
-		
-			}
-			
+			subhelpers.throttle()
 
 		},
 		mousedown : (ev) =>{
@@ -127,14 +128,14 @@ class MovableDiv {
 		mouseup: (ev) => {
 			this.vars.isDown = false;
 			console.log("isDown", this.vars.isDown)
-			// this.helpers.terminate()
+			this.helpers.terminate()
 
 		},
 		mouseleave: (ev) => {
 			// this.helpers.terminate()
 		},
 		mouseout: (ev) => {
-			this.helpers.terminate()
+			// this.helpers.terminate()
 		}
 
 	}
@@ -144,6 +145,6 @@ class MovableDiv {
 var app = document.querySelector("#app");
 var content =  document.querySelector("#content");
 content.appendChild(new MovableDiv(200, 100, "#676867").element)
-// content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
+content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
 
 
