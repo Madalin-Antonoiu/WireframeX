@@ -1,84 +1,121 @@
 "use strict"
+class MovableDiv {
+
+	constructor(width, height, background) {
+		this.element = document.createElement('div');
+		this.element.classList.add("movable-div");
+
+		this.element.style.display = "inline-block";
+		this.element.style.width = width + "px";
+		this.element.style.height = height+ "px";
+		this.element.style.background = background;
+		this.element.style.margin = "0 20px 0 20px";
+		this.element.style.zIndex = 1000;
+
+		this.element.addEventListener('mousedown', this.methods.mousedown);
+	}
+
+	helpers = {
+		// log: () => {
+		// 	console.log(
+		// 		{
+		// 			message: "Clicked!",
+		// 			distanceTop: this.element.offsetTop + "px",
+		// 			distanceLeft: this.element.offsetLeft + "px",
+		// 			outline: this.element.style.outline
+		// 		}
+		// 	)
+		// } ,
+		removeOutlineOnOthers: () => {
+			let elements = app.querySelectorAll("*");
+
+			for (let i=0, len = elements.length; i< len; i++){
+				if(elements[i].classList.contains("outline")){
+					elements[i].classList.remove("outline")
+				}
+			}
+		},
+		outline: () => {
+	
+			if(this.element.classList.contains("outline")){
+				this.element.classList.remove("outline")
+			} else {
+				this.element.classList.add("outline")
+			}
+			
+			
+		},
+		terminate: () =>{
+			this.element.classList.remove("outline") // sau la toti
+			this.element.removeEventListener("mousemove", this.methods.mousemove); // works now!
+			this.element.style.opacity= 1
+		}
+	}
+
+	vars = {
+		timesPerSecond :2 ,
+		wait : false,
+		enableCall: true
+	}
+
+	methods = {
+		mousemove : (ev) => {
+			
+			const subhelpers = {
+				moveAt : (pageX, pageY) => {
+					this.element.style.marginLeft = pageX - this.offsetWidth / 2 + 'px';
+					this.element.style.marginTop = pageY - this.offsetHeight / 2 + 'px';
+				},
+				throttle : () => {
+					if (!this.vars.enableCall) return;
+					this.vars.enableCall = false;
+					console.log("Mousemoving!")
+					setTimeout(() => this.vars.enableCall = true, 300);
+				}
+			}
+
+			subhelpers.throttle()
+			// moveAt(ev.pageX, ev.pageY)
+			
+
+			
+			
+
+		},
+		mousedown : (ev) =>{
+	
+			// helpers.log()
+			this.helpers.removeOutlineOnOthers()
+			this.helpers.outline()
+
+			this.element.addEventListener('mouseup', this.methods.mouseup);
+			this.element.addEventListener('mousemove', this.methods.mousemove);
+			this.element.addEventListener('mouseleave', this.methods.mouseleave);
+			this.element.addEventListener('mouseout', this.methods.mouseout);
+
+			this.element.style.opacity= .5
+			// this.element.style.marginLeft = ev.pageX - this.offsetWidth / 2 + 'px  !important;';
+			// this.element.style.marginTop = ev.pageY - this.offsetHeight / 2 + 'px  !important;';
+			
+		},
+		mouseup: (ev) => {
+			this.helpers.terminate()
+
+		},
+		mouseleave: (ev) => {
+			this.helpers.terminate()
+		},
+		mouseout: (ev) => {
+			this.helpers.terminate()
+		}
+
+	}
+
+}
 
 var app = document.querySelector("#app");
 var content =  document.querySelector("#content");
-
-// Show grid
-var ruler = document.querySelector("#ruler");
-function toggleBodyAttrib(a) { if (ruler.getAttribute(a)=='1') ruler.setAttribute(a,'0'); else ruler.setAttribute(a,'1'); }
-
-
-class MovableDiv {
-
-	constructor(width, height, background,  marginLeft="inherit") {
-		this.element = document.createElement('div');
-		this.element.classList.add("movable-div")
-		this.element.style.width = width + "px";
-		this.element.style.height = height+ "px";;
-		this.element.style.background = background
-		this.element.style.display = "inline-block"
-		this.element.style.position = "absolute"
-		this.element.style.margin = "20px"
-		this.element.style.marginLeft = marginLeft
-
-		this.element.addEventListener('click', this.action);
-	}
-
-
-
-	action(){
-
-		const methods = {
-			log: () => {
-				console.log(
-					{
-						message: "Clicked!",
-						distanceTop: this.offsetTop + "px",
-						distanceLeft: this.offsetLeft + "px",
-						outline: this.style.outline
-					}
-				)
-		} ,
-			remove_outline_others: () => {
-				let elements = app.querySelectorAll("*");
-
-				for (let i=0, len = elements.length; i< len; i++){
-					if(elements[i].classList.contains("outline")){
-						elements[i].classList.remove("outline")
-					}
-				}
-			},
-			outline: () => {
-		
-				// this.style.outline = "2px solid #c3a9ff" ? "" : "2px solid #c3a9ff"
-
-				this.classList.toggle("outline")
-				// (this.style.outline) ? this.style.outline = "" : this.style.outline = "2px solid #c3a9ff" 
-				
-			},
-		}
-
-		methods.log()
-		methods.remove_outline_others()
-		methods.outline()
-	
-	}
-
-	width() {
-    return this.element.width
-	}
-	
-}
-
-
-
-const div1 = new MovableDiv(100, 50, "#7E7E7E");
-const div2 = new MovableDiv(200, 100, "#A5A5A5", "150px");
-
-
-content.appendChild(div1.element)
-content.appendChild(div2.element)
-
-
+content.appendChild(new MovableDiv(200, 100, "#676867").element)
+content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
 
 
