@@ -82,6 +82,13 @@ class MovableDiv {
 			this.element.style.position="absolute";
 			this.element.style.zIndex="1";
 		},
+		removeHandlesFromDom: () => {
+			let elems = content.querySelectorAll(".resizable-handle");
+			for (let i=0, len = elems.length; i< len; i++){
+				elems[i].remove()
+			}
+		},
+
 		handles : (event) => {
 			event.stopPropagation();
 
@@ -193,8 +200,8 @@ class MovableDiv {
 		mousedown : (ev) =>{
 			this.element.style.zIndex = "5";
 			console.log("Mousedown", this.element)
-
-			dispatcher.dispatch('hide-handles');
+			this.helpers.removeHandlesFromDom();
+			
 			this.vars.isDown = true;
 	
 			this.vars.offset = [
@@ -225,7 +232,6 @@ class MovableDiv {
 			// console.log("isDown", this.vars.isDown)
 			this.helpers.terminate()
 
-			dispatcher.dispatch('show-handles');
 			this.element.style.zIndex = "0";
 
 		},
@@ -249,24 +255,7 @@ class Handle {
 		this.element.style.top = top
 		this.element.style.right = right 
 		this.element.style.bottom = bottom 
-
-		dispatcher.addListener('hide-handles', () => {
-			this.element.classList.add("hide")
-		});
-		dispatcher.addListener('show-handles', () => {
-			this.element.classList.remove("hide")
-		});
-
-		// dispatcher.addListener('delete-handles', () => {
-		// 	console.log("I should DELETE the handles") 
-		// 	this.element.remove()
-		// });
-	
 	}
-
-
-
-	//when moving, hide them!
 }
 
 const dispatcher = new Dispatcher();
