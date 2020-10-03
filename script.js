@@ -61,15 +61,18 @@ class MovableDiv {
 	constructor(w, h, bg) {
 		this.helpers.init(w,h,bg)
 
-		this.element.addEventListener('mousedown', this.methods.mousedown);
-		document.addEventListener('click', this.helpers.handles)
+		// Something like this will listen on the event on all instances of the class, not just the event that triggered it
+		// content.addEventListener('click', this.helpers.handles)
+		this.element.addEventListener('mousedown', evt  => this.methods.mousedown(evt));
+		this.element.addEventListener('click', evt => this.helpers.handles(evt));
 
 	}
-
 
 	helpers = {
 		init : (w,h,bg) =>{
 			this.element = document.createElement('div');
+			// this.element.style.position = "relative";
+	
 			this.element.classList.add("movable-div");
 			this.element.style.display = "inline-block";
 			this.element.style.width = w + "px";
@@ -77,24 +80,21 @@ class MovableDiv {
 			this.element.style.background = bg;
 			this.element.style.margin = "0 20px 0 20px";
 			this.element.style.position="absolute";
+			this.element.style.zIndex="1";
 		},
 		handles : (event) => {
-			event.preventDefault();
 			event.stopPropagation();
 
 			// dispatcher.dispatch('delete-handles');
-
-			if(!this.element.querySelector(".resizable-handle")){
-				console.log("ADD handles")
-				this.vars.hasHandles = true;
+			// console.log(event.target);
+			this.helpers.removeOtherHandles()
+			
+			if(event.target.classList.contains("movable-div") && !this.element.querySelector(".resizable-handle")){
+				console.log("ADD handles", this.element)
 				this.helpers.attachHandles();
 			}
 
-			if (!this.element.contains(event.target)) {
-				console.log("REMOVE handles!")
-				this.helpers.removeOtherHandles()
-			  //the click was outside the specifiedElement, do something
-			}
+
 		},
 		attachHandles : () =>{
 
@@ -135,8 +135,6 @@ class MovableDiv {
 
 			if (this.vars.isDown == true) {
 
-
-
 				this.vars.mousePosition = {
 		
 					x : ev.clientX,
@@ -152,11 +150,9 @@ class MovableDiv {
 			}
 		},
 		removeOtherHandles: () => {
-
-			// dispatcher.dispatch('delete-handles');
-			let handles = this.element.querySelectorAll(".resizable-handle");
-			for(let i=0, len = handles.length;i < len; i++){
-				handles[i].remove()
+			let prevhandles = content.querySelectorAll(".resizable-handle");
+			for (let i=0, len = prevhandles.length; i< len; i++){
+				prevhandles[i].remove()
 			}
 		}
 
@@ -195,6 +191,9 @@ class MovableDiv {
 
 		},
 		mousedown : (ev) =>{
+			this.element.style.zIndex = "5";
+			console.log("Mousedown", this.element)
+
 			dispatcher.dispatch('hide-handles');
 			this.vars.isDown = true;
 	
@@ -203,8 +202,7 @@ class MovableDiv {
 				this.element.offsetTop - ev.clientY
 			];
 
-			console.log(this.vars.offset)
-			console.log("isDown", this.vars.isDown)
+			// console.log("isDown", this.vars.isDown)
 
 			this.helpers.removeOutlineOnOthers()
 			this.helpers.outline()
@@ -224,11 +222,11 @@ class MovableDiv {
 			ev.stopPropagation();
 
 			this.vars.isDown = false;
-			console.log("isDown", this.vars.isDown)
+			// console.log("isDown", this.vars.isDown)
 			this.helpers.terminate()
 
 			dispatcher.dispatch('show-handles');
-		
+			this.element.style.zIndex = "0";
 
 		},
 		mouseleave: (ev) => {
@@ -277,5 +275,16 @@ var app = document.querySelector("#app");
 var content =  document.querySelector("#content");
 content.appendChild(new MovableDiv(200, 100, "#676867").element)
 content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
+content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
 
 
+content.addEventListener("click", function(evt){
+	if(evt.target.querySelector(".resizable-handle") && !evt.target.classList.contains(".movable-div")){
+		console.log("Clicked away, removing handles")
+		let elems = evt.target.querySelectorAll(".resizable-handle");
+
+		for (let i=0, len = elems.length; i< len; i++){
+			elems[i].remove()
+		}
+	}
+})
