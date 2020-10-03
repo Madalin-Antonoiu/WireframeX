@@ -10,10 +10,11 @@ class MovableDiv {
 		this.element.style.height = height+ "px";
 		this.element.style.background = background;
 		this.element.style.margin = "0 20px 0 20px";
-		this.element.style.zIndex = 1000;
+		this.element.style.position="absolute";
 
 		this.element.addEventListener('mousedown', this.methods.mousedown);
 	}
+
 
 	helpers = {
 		// log: () => {
@@ -55,10 +56,15 @@ class MovableDiv {
 	vars = {
 		timesPerSecond :2 ,
 		wait : false,
-		enableCall: true
+		enableCall: true,
+
+		mousePosition: "",
+		offset: [0,0],
+		isDown: false
 	}
 
 	methods = {
+
 		mousemove : (ev) => {
 			
 			const subhelpers = {
@@ -74,17 +80,37 @@ class MovableDiv {
 				}
 			}
 
-			subhelpers.throttle()
-			// moveAt(ev.pageX, ev.pageY)
-			
+			// subhelpers.throttle()
+			ev.preventDefault();
 
+			if (this.vars.isDown == true) {
+				this.vars.mousePosition = {
 			
+					x : ev.clientX,
+					y : ev.clientY
+			
+				};
+
+				console.log(this.vars.mousePosition);
+				this.element.style.left = (this.vars.mousePosition.x + this.vars.offset[0]) + 'px';
+				this.element.style.top  = (this.vars.mousePosition.y + this.vars.offset[1]) + 'px';
+		
+			}
 			
 
 		},
 		mousedown : (ev) =>{
+
+			this.vars.isDown = true;
 	
-			// helpers.log()
+			this.vars.offset = [
+				this.element.offsetLeft - ev.clientX,
+				this.element.offsetTop - ev.clientY
+			];
+
+			console.log(this.vars.offset)
+			console.log("isDown", this.vars.isDown)
+
 			this.helpers.removeOutlineOnOthers()
 			this.helpers.outline()
 
@@ -99,11 +125,13 @@ class MovableDiv {
 			
 		},
 		mouseup: (ev) => {
-			this.helpers.terminate()
+			this.vars.isDown = false;
+			console.log("isDown", this.vars.isDown)
+			// this.helpers.terminate()
 
 		},
 		mouseleave: (ev) => {
-			this.helpers.terminate()
+			// this.helpers.terminate()
 		},
 		mouseout: (ev) => {
 			this.helpers.terminate()
@@ -116,6 +144,6 @@ class MovableDiv {
 var app = document.querySelector("#app");
 var content =  document.querySelector("#content");
 content.appendChild(new MovableDiv(200, 100, "#676867").element)
-content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
+// content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
 
 
