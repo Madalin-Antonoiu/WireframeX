@@ -3,7 +3,8 @@
     --app-height: 600px;
     --browser-height: 30px;
     --app-top-botom-margin: 45px;
-    --top: calc(var(--app-top-botom-margin) + var(--browser-height))
+    --top: calc(var(--app-top-botom-margin) + var(--browser-height));
+    --mrgn: 10px;
 }
 
 html, body {
@@ -16,20 +17,26 @@ html, body {
 } 
 
 #app{
-    width: var(--app-width);
+    max-width: var(--app-width);
     margin: var(--app-top-botom-margin) auto;
 }
 
 #content{
-    width: var(--app-width);
+    margin-left: var(--mrgn);
+    margin-right: var(--mrgn);
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: var(--app-width);
     height: var(--app-height);
     background: #FFFFFF;
 }
 
 #browser{
-    width: var(--app-width);
+    max-width: var(--app-width);
     height: var(--browser-height);
     display: block;
+    margin-left: var(--mrgn);
+    margin-right: var(--mrgn);
 
     border-radius: 5px 5px 0 0;
     border-width: 0!important;
@@ -76,12 +83,30 @@ html, body {
     width:5px; 
     height:5px;
     user-select: none;
-    z-index: 10000000000 !important;
+    z-index: 10000000000;
+    box-sizing: border-box;
 }
 .resizable-handle.hide{
     visibility: hidden;
 }
-
-.hide{
-    visibility: hidden;
+.resizable-handle:hover{
+    cursor: ne-resize;
 }
+
+.resizable-handle.TL{
+    cursor: nwse-resize;
+}
+
+.resizable-handle.TR{
+    cursor: nesw-resize;
+}
+.resizable-handle.BL{
+    cursor: nwse-resize;
+}
+
+.resizable-handle.BR{
+    cursor: nesw-resize;
+}
+
+
+

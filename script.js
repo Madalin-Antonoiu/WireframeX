@@ -71,7 +71,7 @@ class MovableDiv {
 	helpers = {
 		init : (w,h,bg) =>{
 			this.element = document.createElement('div');
-			// this.element.style.position = "relative";
+			this.element.style.position = "relative";
 	
 			this.element.classList.add("movable-div");
 			this.element.style.display = "inline-block";
@@ -79,8 +79,19 @@ class MovableDiv {
 			this.element.style.height = h+ "px";
 			this.element.style.background = bg;
 			this.element.style.margin = "0 20px 0 20px";
-			this.element.style.position="absolute";
+			// this.element.style.position="absolute";
 			this.element.style.zIndex="1";
+		},
+		attachHandles : () =>{
+
+			this.element.append(new Handle({bottom: "0px", left:"0px", cls:"BL"}).element);
+			this.element.append(new Handle({bottom: "0px", right:"0px", cls:"BR"}).element);
+			this.element.append(new Handle({top: "0px", left:"0px", cls:"TL"}).element);
+			this.element.append(new Handle({top: "0px", right:"0px", cls:"TR"}).element);
+			this.element.append(new Handle({top:"-2.5px", left:"50%", cls:"TM"}).element);
+			this.element.append(new Handle({bottom:"-2.5px", left:"50%", cls:"BM"}).element);
+			this.element.append(new Handle({top:"50%", left:"-2.5px", cls:"LM"}).element);
+			this.element.append(new Handle({top:"50%", right:"-2.5px", cls:"RM"}).element);
 		},
 		removeHandlesFromDom: () => {
 			let elems = content.querySelectorAll(".resizable-handle");
@@ -88,7 +99,6 @@ class MovableDiv {
 				elems[i].remove()
 			}
 		},
-
 		handles : (event) => {
 			event.stopPropagation();
 
@@ -102,17 +112,6 @@ class MovableDiv {
 			}
 
 
-		},
-		attachHandles : () =>{
-
-			this.element.append(new Handle({bottom: "0px", left:"0px"}).element);
-			this.element.append(new Handle({bottom: "0px", right:"0px"}).element);
-			this.element.append(new Handle({top: "0px", left:"0px"}).element);
-			this.element.append(new Handle({top: "0px", right:"0px"}).element);
-			this.element.append(new Handle({top:"-2.5px", left:"50%"}).element);
-			this.element.append(new Handle({bottom:"-2.5px", left:"50%"}).element);
-			this.element.append(new Handle({top:"50%", left:"-2.5px"}).element);
-			this.element.append(new Handle({top:"50%", right:"-2.5px"}).element);
 		},
 		removeOutlineOnOthers: () => {
 			let elements = app.querySelectorAll("*");
@@ -247,14 +246,49 @@ class MovableDiv {
 }
 
 class Handle {
-	constructor({left, top, bottom, right}){
+	constructor({left, top, bottom, right, cls}){
 		this.element = document.createElement('span');
-		this.element.classList.add("resizable-handle");
+		this.element.classList.add("resizable-handle");//do with :css
+		this.element.classList.add(cls)
 
 		this.element.style.left = left 
 		this.element.style.top = top
 		this.element.style.right = right 
 		this.element.style.bottom = bottom 
+
+		this.element.addEventListener("mouseover", this.methods.mouseover)
+		this.element.addEventListener("mousedown", this.methods.mousedown)
+	}
+
+	methods={
+		mouseover: (ev) => {
+			// this.element.parentElement.style.width = "300px"; OK!
+			ev.target.style.background = "orange";
+			console.log(parseInt(this.element.parentElement.style.width))
+
+			if(ev.target.classList.contains("BM") || ev.target.classList.contains("TM")){
+				this.element.parentElement.style.height = (parseInt(this.element.parentElement.style.height) + 10) + "px"
+			}
+
+			if(ev.target.classList.contains("BL")){
+				this.element.parentElement.style.width = (parseInt(this.element.parentElement.style.width) + 10) + "px"
+				this.element.parentElement.style.height = (parseInt(this.element.parentElement.style.height) + 10) + "px"
+			}
+
+			if(ev.target.classList.contains("RM")){
+				this.element.parentElement.style.width = (parseInt(this.element.parentElement.style.width) + 10) + "px"
+			}
+		},
+		mousedown: (ev) => {
+			// event.target.style.background = "orange";
+			console.log("Mdown l")
+			if(ev.target.classList.contains("BL")){
+				// console.log(this.element.style.width)
+				// this.element.style.width = 
+				console.log("BL!!")
+				//this.element.parentElement.style.width += parseInt(this.element.parentElement.style.width) + 10 + "px"
+			}
+		}
 	}
 }
 
