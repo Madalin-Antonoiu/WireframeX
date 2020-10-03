@@ -78,3 +78,10 @@ html, body {
     user-select: none;
     z-index: 10000000000 !important;
 }
+.resizable-handle.hide{
+    visibility: hidden;
+}
+
+.hide{
+    visibility: hidden;
+}
