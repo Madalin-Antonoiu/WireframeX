@@ -13,7 +13,7 @@ html, body {
     margin: 0px;
     border: 0px;
     padding: 0px;
-    background: #eeeeee;
+    background: #eeeeee !important;
 } 
 
 #app{
@@ -22,10 +22,12 @@ html, body {
 }
 
 #content{
+    /* display: flex;
+    flex-wrap: nowrap; */
+
     margin-left: var(--mrgn);
     margin-right: var(--mrgn);
-    display: flex;
-    flex-wrap: nowrap;
+
     max-width: var(--app-width);
     height: var(--app-height);
     background: #FFFFFF;

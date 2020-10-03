@@ -1,4 +1,5 @@
 "use strict"
+import Handle from "./classes/Handle.js"
 // Make Handle class instead of querySelectorAll
 
 //Thanks to https://gist.github.com/LeoAref/b6a14d96423a0b558b7de7635fb8f86e
@@ -63,7 +64,7 @@ class MovableDiv {
 
 		// Something like this will listen on the event on all instances of the class, not just the event that triggered it
 		// content.addEventListener('click', this.helpers.handles)
-		this.element.addEventListener('mousedown', evt  => this.methods.mousedown(evt));
+		// this.element.addEventListener('mousedown', this.methods.mousedown);
 		this.element.addEventListener('click', evt => this.helpers.handles(evt));
 
 	}
@@ -176,108 +177,79 @@ class MovableDiv {
 
 	methods = {
 
-		mousemove : (ev) => {
+		// mousemove : (ev) => {
 			
-			const subhelpers = {
-				throttle : () => {
-					if (!this.vars.enableCall) return;
-					this.vars.enableCall = false;
-					// console.log("Mousemoving!")
+		// 	const subhelpers = {
+		// 		throttle : () => {
+		// 			if (!this.vars.enableCall) return;
+		// 			this.vars.enableCall = false;
+		// 			// console.log("Mousemoving!")
 					
-					this.helpers.moveElem(ev)
+		// 			this.helpers.moveElem(ev)
 
-					setTimeout(() => this.vars.enableCall = true, 100);
-				},
+		// 			setTimeout(() => this.vars.enableCall = true, 100);
+		// 		},
 
-			}
+		// 	}
 			
-			// subhelpers.throttle()
-			this.helpers.moveElem(ev)
-			// subhelpers.throttle()
+		// 	// subhelpers.throttle()
+		// 	this.helpers.moveElem(ev)
+		// 	// subhelpers.throttle()
 
-		},
-		mousedown : (ev) =>{
-			this.element.style.zIndex = "5";
-			console.log("Mousedown", this.element)
-			this.helpers.removeHandlesFromDom();
+		// },
+		// mousedown : (ev) =>{
+		// 	this.element.style.zIndex = "5";
+		// 	console.log("Mousedown", this.element)
+		// 	this.helpers.removeHandlesFromDom();
 			
-			this.vars.isDown = true;
+		// 	this.vars.isDown = true;
 	
-			this.vars.offset = [
-				this.element.offsetLeft - ev.clientX,
-				this.element.offsetTop - ev.clientY
-			];
+		// 	this.vars.offset = [
+		// 		this.element.offsetLeft - ev.clientX,
+		// 		this.element.offsetTop - ev.clientY
+		// 	];
 
-			// console.log("isDown", this.vars.isDown)
+		// 	// console.log("isDown", this.vars.isDown)
 
-			this.helpers.removeOutlineOnOthers()
-			this.helpers.outline()
+		// 	this.helpers.removeOutlineOnOthers()
+		// 	this.helpers.outline()
 
-			this.element.addEventListener('mouseup', this.methods.mouseup);
-			this.element.addEventListener('mousemove', this.methods.mousemove);
-			this.element.addEventListener('mouseleave', this.methods.mouseleave);
-			this.element.addEventListener('mouseout', this.methods.mouseout);
+		// 	this.element.addEventListener('mouseup', this.methods.mouseup);
+		// 	this.element.addEventListener('mousemove', this.methods.mousemove);
+		// 	this.element.addEventListener('mouseleave', this.methods.mouseleave);
+		// 	this.element.addEventListener('mouseout', this.methods.mouseout);
 
-			this.element.style.opacity= .5
-			// this.element.style.marginLeft = ev.pageX - this.offsetWidth / 2 + 'px  !important;';
-			// this.element.style.marginTop = ev.pageY - this.offsetHeight / 2 + 'px  !important;';
+		// 	this.element.style.opacity= .5
+		// 	// this.element.style.marginLeft = ev.pageX - this.offsetWidth / 2 + 'px  !important;';
+		// 	// this.element.style.marginTop = ev.pageY - this.offsetHeight / 2 + 'px  !important;';
 			
-		},
-		mouseup: (ev) => {
-			ev.preventDefault();
-			ev.stopPropagation();
+		// },
+		// mouseup: (ev) => {
+		// 	ev.preventDefault();
+		// 	ev.stopPropagation();
 
-			this.vars.isDown = false;
-			// console.log("isDown", this.vars.isDown)
-			this.helpers.terminate()
+		// 	this.vars.isDown = false;
+		// 	// console.log("isDown", this.vars.isDown)
+		// 	this.helpers.terminate()
 
-			this.element.style.zIndex = "0";
+		// 	this.element.style.zIndex = "0";
 
-		},
-		mouseleave: (ev) => {
-			// this.helpers.terminate()
-		},
-		mouseout: (ev) => {
-			// this.helpers.terminate()
-		}
+		// },
+		// mouseleave: (ev) => {
+		// 	// this.helpers.terminate()
+		// },
+		// mouseout: (ev) => {
+		// 	// this.helpers.terminate()
+		// }
 
 	}
 
 }
 
-class Handle {
-	constructor({left, top, bottom, right, cls}){
-		this.element = document.createElement('span');
-		this.element.classList.add("resizable-handle");//do with :css
-		this.element.classList.add(cls)
-
-		this.element.style.left = left 
-		this.element.style.top = top
-		this.element.style.right = right 
-		this.element.style.bottom = bottom 
-
-		this.element.addEventListener("mouseover", this.methods.mouseover)
-		this.element.addEventListener("mousedown", this.methods.mousedown)
-	}
-
-	methods={
-		mouseover: (ev) => {
-			// this.element.parentElement.style.width = "300px"; OK!
-			ev.target.style.background = "orange";
-			console.log(parseInt(this.element.parentElement.style.width))
-
-
-		},
-		mousedown: (ev) => {
-			// event.target.style.background = "orange";
-			console.log("Mdown l")
-			if(ev.target.classList.contains("BL")){
-				// console.log(this.element.style.width)
-				// this.element.style.width = 
-				console.log("BL!!")
-				//this.element.parentElement.style.width += parseInt(this.element.parentElement.style.width) + 10 + "px"
-			}
-		}
+// Main container to-be!
+class Container {
+	constructor(){
+		
 	}
 }
 
@@ -285,9 +257,11 @@ const dispatcher = new Dispatcher();
 
 var app = document.querySelector("#app");
 var content =  document.querySelector("#content");
-content.appendChild(new MovableDiv(200, 100, "#676867").element)
-content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
-content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
+var hero =  document.querySelector("#hero");
+
+hero.appendChild(new MovableDiv(200, 100, "#676867").element)
+hero.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
+hero.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
 
 
 content.addEventListener("click", function(evt){
@@ -300,3 +274,6 @@ content.addEventListener("click", function(evt){
 		}
 	}
 })
+
+
+
