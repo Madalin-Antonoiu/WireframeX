@@ -6,7 +6,7 @@
     --top: calc(var(--app-top-botom-margin) + var(--browser-height));
     --mrgn: 10px;
 }
-html, body {
+html{
     width: 100%;
     max-height: 100vh;
     margin: 0px;
@@ -17,6 +17,17 @@ html, body {
 #app{
     max-width: var(--app-width);
     margin: var(--app-top-botom-margin) auto;
+}
+#content{
+    /* display: flex;
+    flex-wrap: nowrap; */
+
+    margin-left: var(--mrgn);
+    margin-right: var(--mrgn);
+
+    max-width: var(--app-width);
+    height: var(--app-height);
+    background: #FFFFFF;
 }
 #content{
     /* display: flex;
