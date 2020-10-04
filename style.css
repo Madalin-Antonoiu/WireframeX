@@ -39,6 +39,7 @@ html{
     max-width: var(--app-width);
     height: var(--app-height);
     background: #FFFFFF;
+    position:relative;
 }
 #browser{
     max-width: var(--app-width);
@@ -92,7 +93,27 @@ html{
 }
 
 
+.badge{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #eeeeee;
+    pointer-events:none; 
+    background-color: rgb(36, 152, 219);
+    /* ignore all events on badge */
+    font-size: 0.7rem;
+}
 
+#myModal{
+    position: absolute;
+    max-width:15rem;
+    max-height:20rem;
+}
+
+#myModal header, section, footer, .modal-card{
+    max-width:inherit;
+    max-height:inherit;
+}
 
 
 
