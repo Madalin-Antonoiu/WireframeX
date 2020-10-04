@@ -105,6 +105,9 @@ html, body {
 .resizable-handle.LM,.RM {
     cursor: w-resize;
 }
+.resizable-handle.MM{
+    cursor: move;
+}
 
 
 

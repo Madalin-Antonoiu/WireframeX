@@ -1,5 +1,6 @@
 "use strict"
 import Handle from "./classes/Handle.js"
+import Container from "./classes/Container.js"
 // Make Handle class instead of querySelectorAll
 
 //Thanks to https://gist.github.com/LeoAref/b6a14d96423a0b558b7de7635fb8f86e
@@ -61,7 +62,6 @@ class MovableDiv {
 
 	constructor(w, h, bg) {
 		this.helpers.init(w,h,bg)
-
 		// Something like this will listen on the event on all instances of the class, not just the event that triggered it
 		// content.addEventListener('click', this.helpers.handles)
 		// this.element.addEventListener('mousedown', this.methods.mousedown);
@@ -93,6 +93,7 @@ class MovableDiv {
 			this.element.append(new Handle({bottom:"-2.5px", left:"50%", cls:"BM"}).element);
 			this.element.append(new Handle({top:"50%", left:"-2.5px", cls:"LM"}).element);
 			this.element.append(new Handle({top:"50%", right:"-2.5px", cls:"RM"}).element);
+			this.element.append(new Handle({bottom:"49%", right:"50%", cls:"MM"}).element);
 		},
 		removeHandlesFromDom: () => {
 			let elems = content.querySelectorAll(".resizable-handle");
@@ -246,34 +247,14 @@ class MovableDiv {
 
 }
 
-// Main container to-be!
-class Container {
-	constructor(){
-		
-	}
-}
-
-const dispatcher = new Dispatcher();
+// const dispatcher = new Dispatcher();
 
 var app = document.querySelector("#app");
+app.appendChild(new Container().element)
 var content =  document.querySelector("#content");
-var hero =  document.querySelector("#hero");
 
-hero.appendChild(new MovableDiv(200, 100, "#676867").element)
-hero.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
-hero.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
-
-
-content.addEventListener("click", function(evt){
-	if(evt.target.querySelector(".resizable-handle") && !evt.target.classList.contains(".movable-div")){
-		console.log("Clicked away, removing handles")
-		let elems = evt.target.querySelectorAll(".resizable-handle");
-
-		for (let i=0, len = elems.length; i< len; i++){
-			elems[i].remove()
-		}
-	}
-})
-
+content.appendChild(new MovableDiv(200, 100, "#676867").element)
+content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
+content.appendChild(new MovableDiv(200, 100, "#C0C0C0").element)
 
 
