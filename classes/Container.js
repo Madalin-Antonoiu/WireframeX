@@ -113,7 +113,7 @@ export default class Container {
                 const height = this.data.original_height + (ev.pageY - this.data.original_mouse_y);
                 const marginLeft = this.data.original_margin_left + (ev.pageX - this.data.original_mouse_x);
 
-                if (marginLeft > this.data.minimum_size && (parseInt(ev.target.parentElement.style.marginLeft) + parseInt(ev.target.parentElement.style.width)) < this.element.style.width) {
+                if (marginLeft > this.data.minimum_size) {
                    this.data.parent.style.marginLeft = (Math.abs(this.data.original_margin_left + (ev.pageX - this.data.original_mouse_x)))/ 16 + "rem" 
                 }   
             }
