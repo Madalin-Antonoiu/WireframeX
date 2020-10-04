@@ -6,6 +6,7 @@
     --top: calc(var(--app-top-botom-margin) + var(--browser-height));
     --mrgn: 10px;
 }
+
 html, body {
     width: 100%;
     max-height: 100vh;
@@ -14,10 +15,12 @@ html, body {
     padding: 0px;
     background: #eeeeee !important;
 } 
+
 #app{
     max-width: var(--app-width);
     margin: var(--app-top-botom-margin) auto;
 }
+
 #content{
     /* display: flex;
     flex-wrap: nowrap; */
@@ -29,6 +32,7 @@ html, body {
     height: var(--app-height);
     background: #FFFFFF;
 }
+
 #browser{
     max-width: var(--app-width);
     height: var(--browser-height);

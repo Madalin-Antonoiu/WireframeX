@@ -1,6 +1,7 @@
 "use strict"
-// import Handle from "./classes/Handle"
-// import Container from "./classes/Container"
+import Handle from "../classes/Handle.js"
+import Container from "../classes/Container.js"
+// Make Handle class instead of querySelectorAll
 
 //Thanks to https://gist.github.com/LeoAref/b6a14d96423a0b558b7de7635fb8f86e
 class Dispatcher {
@@ -246,32 +247,14 @@ class MovableDiv {
 
 }
 
-class Container {
-	constructor(){
-		this.element = document.createElement("DIV");
-		this.element.id = "content";
-		this.element.style.position = "relative";
-
-        // this.element.addEventListener("click", this.methods.click);
-        // this.element.addEventListener("mousedown", this.methods.mousedown)
-        // this.element.addEventListener("mouseout", this.methods.mouseout)
-    }
-}
-
-
 // const dispatcher = new Dispatcher();
 
 var app = document.querySelector("#app");
-let elem = new Container
-let emex = elem.elem
-console.log(elem.elem)
-
-
 app.appendChild(new Container().element)
 var content =  document.querySelector("#content");
 
-// content.appendChild(new MovableDiv(200, 100, "#676867").element)
-// content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
-// content.appendChild(new MovableDiv(200, 100, "#C0C0C0").element)
+content.appendChild(new MovableDiv(200, 100, "#676867").element)
+content.appendChild(new MovableDiv(200, 100, "#A5A5A5").element)
+content.appendChild(new MovableDiv(200, 100, "#C0C0C0").element)
 
 
