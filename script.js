@@ -7,5 +7,5 @@ var content =  document.querySelector("#content");
 
 
 
-let jafa = document.createElement("DIV"); jafa.style.height="100px"; jafa.style.width="100px"; jafa.style.background = "orange";
+let jafa = document.createElement("DIV"); jafa.style.height="100px"; jafa.style.width="100px"; jafa.style.background = "#888888";
 content.appendChild(jafa)
